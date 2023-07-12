@@ -2,6 +2,12 @@
 
 A simple plugin to inject custom operations before start debugging.
 
+## Usage
+
+Simply replace `require("dap").continue()` with `require("dap-utils").continue()`.
+
+## Config
+
 Here is an example to debug rust in a workspace.
 
 ```lua
