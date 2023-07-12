@@ -1,10 +1,12 @@
 # dap-utils.nvim
 
-A simple plugin to inject custom operations before start debugging.
+A simple plugin to safely inject custom operations before start debugging.
 
 ## Usage
 
-Simply replace `require("dap").continue()` with `require("dap-utils").continue()`.
+Simply replace `require("dap").continue()` with `require("dap-utils").continue()`, and start debug with this function.
+
+> Async functions or some ui operations may cause error if they are called in `program` function.
 
 ## Config
 
@@ -16,6 +18,7 @@ require("dap-utils").setup({
 		-- nvim-dap start to work after call `run`
 		-- the arguments of `run` is same to `dap.run`, see :h dap-api.
 		local config = {
+			-- `name` is required for config
 			name = "Launch",
 			type = "lldb",
 			request = "launch",
@@ -56,6 +59,52 @@ require("dap-utils").setup({
 				run(config)
 			end)
 		end
+	end,
+})
+```
+
+You can also pass multiple configurations into `run`.
+
+```lua
+require("dap-utils").setup({
+	javascript = function(run)
+		local core = require("niuiic-core")
+		run({
+			{
+				name = "Launch project",
+				type = "pwa-node",
+				request = "launch",
+				cwd = "${workspaceFolder}",
+				runtimeExecutable = "pnpm",
+				runtimeArgs = {
+					"debug",
+				},
+			},
+			{
+				name = "Launch cmd",
+				type = "pwa-node",
+				request = "launch",
+				cwd = core.file.root_path(),
+				runtimeExecutable = "pnpm",
+				runtimeArgs = {
+					"debug:cmd",
+				},
+			},
+			{
+				name = "Launch file",
+				type = "pwa-node",
+				request = "launch",
+				program = "${file}",
+				cwd = "${workspaceFolder}",
+			},
+			{
+				name = "Attach",
+				type = "pwa-node",
+				request = "attach",
+				processId = require("dap.utils").pick_process,
+				cwd = "${workspaceFolder}",
+			},
+		})
 	end,
 })
 ```
