@@ -2,11 +2,11 @@
 
 A simple plugin to safely inject custom operations before start debugging.
 
+> Async functions or some ui operations may cause error if they are called in `program` function.
+
 ## Usage
 
 Simply replace `require("dap").continue()` with `require("dap-utils").continue()`, and start debug with this function.
-
-> Async functions or some ui operations may cause error if they are called in `program` function.
 
 ## Config
 
