@@ -8,14 +8,24 @@ Utilties to provide a better experience for using `nvim-dap`.
 
 ## Usage
 
-| function              | usage                                                                                                         | desc                                                                           |
-| --------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `continue`            | Replace the original `continue` with `require("dap-utils").continue()`, and start to debug with this function | Safely inject custom operations before start debugging. (see #1)               |
-| `store_breakpoints`   | `require("dap-utils").store_breakpoints(file_path, root_pattern)`                                             | Store all breakpoints to a file. `root_pattern` is `.git` by default. (see #2) |
-| `restore_breakpoints` | `require("dap-utils").restore_breakpoints(file_path, root_pattern)`                                           | Restore all breakpoints from a file. `root_pattern` is `.git` by default.      |
+### continue
 
-> 1. Async functions or some ui operations may cause error if they are called in `program` function.
-> 2. You are recommanded to use it with a session manager.
+- Safely inject custom operations before start debugging.
+- Replace the original `continue` with `require("dap-utils").continue()`, and start to debug with this function.
+
+> Async functions or some ui operations may cause error if they are called in `program` function.
+
+### store_breakpoints
+
+- Store all breakpoints to a file. `root_pattern` is `.git` by default.
+- `require("dap-utils").store_breakpoints(file_path, root_pattern)`
+
+> Use it with a session manager, see [niuiic/multiple-session](https://github.com/niuiic/multiple-session.nvim).
+
+### restore_breakpoints
+
+- Restore all breakpoints from a file. `root_pattern` is `.git` by default.
+- `require("dap-utils").restore_breakpoints(file_path, root_pattern)`
 
 ## Config
 
@@ -23,6 +33,7 @@ Here is an example to debug rust in a workspace.
 
 ```lua
 require("dap-utils").setup({
+	-- filetype = function while returns dap config
 	rust = function(run)
 		-- nvim-dap start to work after call `run`
 		-- the arguments of `run` is same to `dap.run`, see :h dap-api.
