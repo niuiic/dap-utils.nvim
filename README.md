@@ -1,16 +1,19 @@
 # dap-utils.nvim
 
-A simple plugin to safely inject custom operations before start debugging.
-
-> Async functions or some ui operations may cause error if they are called in `program` function.
-
 ## Dependencies
 
 - [niuiic-core.nvim](https://github.com/niuiic/niuiic-core.nvim)
 
 ## Usage
 
-Simply replace `require("dap").continue()` with `require("dap-utils").continue()`, and start debug with this function.
+| function              | usage                                                                                                         | desc                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `continue`            | Replace the original `continue` with `require("dap-utils").continue()`, and start to debug with this function | Safely inject custom operations before start debugging. (see #1)               |
+| `store_breakpoints`   | `require("dap-utils").store_breakpoints(file_path, root_pattern)`                                             | Store all breakpoints to a file. `root_pattern` is `.git` by default. (see #2) |
+| `restore_breakpoints` | `require("dap-utils").restore_breakpoints(file_path, root_pattern)`                                           | Restore all breakpoints from a file. `root_pattern` is `.git` by default.      |
+
+> 1. Async functions or some ui operations may cause error if they are called in `program` function.
+> 2. You are recommanded to use it with a session manager.
 
 ## Config
 
