@@ -1,5 +1,7 @@
 # dap-utils.nvim
 
+Utilties to provide a better experience for using `nvim-dap`.
+
 ## Dependencies
 
 - [niuiic-core.nvim](https://github.com/niuiic/niuiic-core.nvim)
