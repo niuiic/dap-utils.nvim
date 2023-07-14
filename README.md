@@ -4,7 +4,7 @@ Utilties to provide a better experience for using `nvim-dap`.
 
 ## Dependencies
 
-- [niuiic-core.nvim](https://github.com/niuiic/niuiic-core.nvim)
+- [core.nvim](https://github.com/niuiic/core.nvim)
 
 ## Usage
 
@@ -36,7 +36,7 @@ require("dap-utils").setup({
 			stopOnEntry = false,
 			args = {},
 		}
-		local core = require("niuiic-core")
+		local core = require("core")
 		vim.cmd("!cargo build")
 		local root_path = core.file.root_path()
 		local target_dir = root_path .. "/target/debug/"
@@ -77,7 +77,7 @@ You can also pass multiple configurations into `run`.
 ```lua
 require("dap-utils").setup({
 	javascript = function(run)
-		local core = require("niuiic-core")
+		local core = require("core")
 		run({
 			{
 				name = "Launch project",

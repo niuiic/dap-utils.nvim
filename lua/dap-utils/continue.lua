@@ -1,5 +1,5 @@
 local static = require("dap-utils.static")
-local core = require("niuiic-core")
+local core = require("core")
 
 local run = function(config, option)
 	local dap = require("dap")

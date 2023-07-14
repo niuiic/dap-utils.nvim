@@ -1,4 +1,4 @@
-local core = require("niuiic-core")
+local core = require("core")
 
 local get_buf_name = function(bufnr, root_path)
 	return string.sub(vim.api.nvim_buf_get_name(bufnr), string.len(root_path) + 2)
