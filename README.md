@@ -4,7 +4,7 @@ Utilties to provide a better experience for using `nvim-dap`.
 
 ## Dependencies
 
-- [core.nvim](https://github.com/niuiic/core.nvim)
+- [niuiic/core.nvim](https://github.com/niuiic/core.nvim)
 
 ## Usage
 
@@ -20,7 +20,7 @@ Utilties to provide a better experience for using `nvim-dap`.
 - Store all breakpoints to a file. `root_pattern` is `.git` by default.
 - `require("dap-utils").store_breakpoints(file_path, root_pattern)`
 
-> Use it with a session manager, see [niuiic/multiple-session](https://github.com/niuiic/multiple-session.nvim).
+> Use it with a session manager, see [niuiic/multiple-session.nvim](https://github.com/niuiic/multiple-session.nvim).
 
 ### restore_breakpoints
 
