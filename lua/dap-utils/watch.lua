@@ -2,7 +2,6 @@ local core = require("core")
 
 local store_watches = function(file_path)
 	local watches = require("dapui").elements.watches.get()
-	print(vim.inspect(watches))
 
 	local text = vim.fn.json_encode(watches)
 
@@ -37,7 +36,15 @@ local restore_watches = function(file_path)
 	end)
 end
 
+local remove_watches = function()
+	local watches = require("dapui").elements.watches.get()
+	core.lua.list.each(watches, function()
+		require("dapui").elements.watches.remove(1)
+	end)
+end
+
 return {
 	store_watches = store_watches,
 	restore_watches = restore_watches,
+	remove_watches = remove_watches,
 }

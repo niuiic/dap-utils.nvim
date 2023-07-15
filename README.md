@@ -39,6 +39,11 @@ Utilties to provide a better experience for using `nvim-dap`.
 - Restore all watches from a file.
 - `require("dap-utils").restore_watches(file_path)`
 
+### remove_watches
+
+- Remove all watches.
+- `require("dap-utils").remove_watches()`
+
 ## Config
 
 Here is an example to debug rust in a workspace.
