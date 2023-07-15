@@ -12,5 +12,6 @@ return {
 	continue = continue,
 	store_breakpoints = breakpoint.store_breakpoints,
 	restore_breakpoints = breakpoint.restore_breakpoints,
-	add_to_watch = watch.add_to_watch,
+	store_watches = watch.store_watches,
+	restore_watches = watch.restore_watches,
 }

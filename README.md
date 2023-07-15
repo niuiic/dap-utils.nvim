@@ -17,15 +17,27 @@ Utilties to provide a better experience for using `nvim-dap`.
 
 ### store_breakpoints
 
-- Store all breakpoints to a file. `root_pattern` is `.git` by default.
+- Store all breakpoints to a file.
 - `require("dap-utils").store_breakpoints(file_path, root_pattern)`
+- `root_pattern` is `.git` by default.
 
 > Use it with a session manager, see [niuiic/multiple-session.nvim](https://github.com/niuiic/multiple-session.nvim).
 
 ### restore_breakpoints
 
-- Restore all breakpoints from a file. `root_pattern` is `.git` by default.
+- Restore all breakpoints from a file.
 - `require("dap-utils").restore_breakpoints(file_path, root_pattern)`
+- `root_pattern` is `.git` by default.
+
+### store_watches
+
+- Store all watches to a file.
+- `require("dap-utils").store_watches(file_path)`
+
+### restore_watches
+
+- Restore all watches from a file.
+- `require("dap-utils").restore_watches(file_path)`
 
 ## Config
 
