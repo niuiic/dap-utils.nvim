@@ -31,6 +31,12 @@ Utilties to provide a better experience for using `nvim-dap`.
 - `require("dap-utils").restore_breakpoints(file_path, root_pattern)`
 - `root_pattern` is `.git` by default.
 
+### search_breakpoints
+
+- Search breakpoints with `telescope.nvim`.
+- `require("dap-utils").search_breakpoints(opts)`
+- `opts` is optional, it's same to telescope picker opts.
+
 ### store_watches
 
 - Store all watches to a file.
