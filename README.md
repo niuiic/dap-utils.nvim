@@ -5,6 +5,8 @@ Utilties to provide a better experience for using `nvim-dap`.
 ## Dependencies
 
 - [niuiic/core.nvim](https://github.com/niuiic/core.nvim)
+- [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap)
+- [rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui)
 
 ## Usage
 
