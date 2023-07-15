@@ -27,11 +27,6 @@ Utilties to provide a better experience for using `nvim-dap`.
 - Restore all breakpoints from a file. `root_pattern` is `.git` by default.
 - `require("dap-utils").restore_breakpoints(file_path, root_pattern)`
 
-### add_to_watch
-
-- Add selected text or expr under the cursor to watch.
-- Work on mode `v` and `n`.
-
 ## Config
 
 Here is an example to debug rust in a workspace.
