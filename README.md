@@ -37,11 +37,12 @@ Utilties to provide a better experience for using `nvim-dap`.
 - `require("dap-utils").search_breakpoints(opts)`
 - `opts` is optional, it's same to telescope picker opts.
 
-### use_toggle_breakpoints
+### toggle_breakpoints
 
-- Toggle all breakpoints.
-- `local toggle_breakpoints = require("dap-utils").use_toggle_breakpoints(relative_path, root_pattern)`. See [sample config](https://github.com/niuiic/modern-neovim-configuration/blob/main/lua/plugin/nvim-dap.lua).
-- Breakpoints are stored in a temp file (`root_path/relative_path`). This file will be removed on `VimLeave`.
+- Enable/Disable all breakpoints.
+- `require("dap-utils").toggle_breakpoints(root_pattern)`.
+- Breakpoints disabled can be stored by `store_breakpoints`.
+- `require("dap").clear_breakpoints()` cannot remove disabled breakpoints, use `require("dap-utils").clear_breakpoints()` instead.
 
 ### store_watches
 

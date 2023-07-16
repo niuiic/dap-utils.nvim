@@ -1,18 +1,29 @@
 local core = require("core")
+local method = "store"
+local brks = {}
 
 local get_buf_name = function(bufnr, root_path)
 	return string.sub(vim.api.nvim_buf_get_name(bufnr), string.len(root_path) + 2)
 end
 
-local store_breakpoints = function(file_path, root_pattern)
+local get_breakpoints = function(root_pattern)
 	local root_path = core.file.root_path(root_pattern)
-
 	local breakpoints = require("dap.breakpoints").get()
+
 	breakpoints = core.lua.table.reduce(breakpoints, function(prev_res, cur_item)
 		local buf_name = get_buf_name(cur_item.k, root_path)
 		prev_res[buf_name] = cur_item.v
 		return prev_res
 	end, {})
+
+	return breakpoints
+end
+
+local store_breakpoints = function(file_path, root_pattern)
+	local breakpoints = get_breakpoints(root_pattern)
+	if #core.lua.table.keys(breakpoints) == 0 then
+		breakpoints = brks
+	end
 
 	local text = vim.fn.json_encode(breakpoints)
 
@@ -24,22 +35,9 @@ local store_breakpoints = function(file_path, root_pattern)
 	file:close()
 end
 
-local restore_breakpoints = function(file_path, root_pattern)
+local set_breakpoints = function(breakpoints, root_pattern)
 	local root_path = core.file.root_path(root_pattern)
 
-	if not core.file.file_or_dir_exists(file_path) then
-		return
-	end
-	local file = io.open(file_path, "r")
-	if not file then
-		return
-	end
-	local text = file:read("*a")
-
-	local breakpoints = vim.fn.json_decode(text)
-	if breakpoints == nil then
-		return
-	end
 	breakpoints = core.lua.list.reduce(vim.api.nvim_list_bufs(), function(prev_res, cur_item)
 		local buf_name = get_buf_name(cur_item, root_path)
 		if breakpoints[buf_name] ~= nil then
@@ -57,6 +55,24 @@ local restore_breakpoints = function(file_path, root_pattern)
 			}, tonumber(bufnr), v.line)
 		end)
 	end)
+end
+
+local restore_breakpoints = function(file_path, root_pattern)
+	if not core.file.file_or_dir_exists(file_path) then
+		return
+	end
+	local file = io.open(file_path, "r")
+	if not file then
+		return
+	end
+	local text = file:read("*a")
+
+	local breakpoints = vim.fn.json_decode(text)
+	if breakpoints == nil then
+		return
+	end
+
+	set_breakpoints(breakpoints, root_pattern)
 end
 
 local search_breakpoints = function(opts, root_pattern)
@@ -148,43 +164,26 @@ local search_breakpoints = function(opts, root_pattern)
 		:find()
 end
 
-local use_toggle_breakpoints = function(relative_path, root_pattern)
-	local root_path = core.file.root_path(root_pattern)
-	local file_path
-	if relative_path then
-		file_path = root_path .. "/" .. relative_path
+local toggle_breakpoints = function(root_pattern)
+	if method == "store" then
+		brks = get_breakpoints(root_pattern)
+		require("dap").clear_breakpoints()
+		method = "restore"
 	else
-		file_path = root_path .. "/_breakpoints"
+		set_breakpoints(brks, root_pattern)
+		method = "store"
 	end
+end
 
-	vim.api.nvim_create_autocmd("VimLeave", {
-		pattern = "*",
-		callback = function()
-			if core.file.file_or_dir_exists(file_path) then
-				vim.loop.fs_unlink(file_path)
-			end
-		end,
-	})
-
-	local method = "store"
-
-	local toggle_breakpoints = function()
-		if method == "store" then
-			store_breakpoints(file_path)
-			require("dap").clear_breakpoints()
-			method = "restore"
-		else
-			restore_breakpoints(file_path)
-			method = "store"
-		end
-	end
-
-	return toggle_breakpoints
+local clear_breakpoints = function()
+	require("dap").clear_breakpoints()
+	brks = {}
 end
 
 return {
 	store_breakpoints = store_breakpoints,
 	restore_breakpoints = restore_breakpoints,
 	search_breakpoints = search_breakpoints,
-	use_toggle_breakpoints = use_toggle_breakpoints,
+	toggle_breakpoints = toggle_breakpoints,
+	clear_breakpoints = clear_breakpoints,
 }
