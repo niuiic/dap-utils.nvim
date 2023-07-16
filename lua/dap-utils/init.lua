@@ -13,6 +13,7 @@ return {
 	store_breakpoints = breakpoint.store_breakpoints,
 	restore_breakpoints = breakpoint.restore_breakpoints,
 	search_breakpoints = breakpoint.search_breakpoints,
+	use_toggle_breakpoints = breakpoint.use_toggle_breakpoints,
 	store_watches = watch.store_watches,
 	restore_watches = watch.restore_watches,
 	remove_watches = watch.remove_watches,

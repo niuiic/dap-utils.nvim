@@ -148,8 +148,43 @@ local search_breakpoints = function(opts, root_pattern)
 		:find()
 end
 
+local use_toggle_breakpoints = function(relative_path, root_pattern)
+	local root_path = core.file.root_path(root_pattern)
+	local file_path
+	if relative_path then
+		file_path = root_path .. "/" .. relative_path
+	else
+		file_path = root_path .. "/_breakpoints"
+	end
+
+	vim.api.nvim_create_autocmd("VimLeave", {
+		pattern = "*",
+		callback = function()
+			if core.file.file_or_dir_exists(file_path) then
+				vim.loop.fs_unlink(file_path)
+			end
+		end,
+	})
+
+	local method = "store"
+
+	local toggle_breakpoints = function()
+		if method == "store" then
+			store_breakpoints(file_path)
+			require("dap").clear_breakpoints()
+			method = "restore"
+		else
+			restore_breakpoints(file_path)
+			method = "store"
+		end
+	end
+
+	return toggle_breakpoints
+end
+
 return {
 	store_breakpoints = store_breakpoints,
 	restore_breakpoints = restore_breakpoints,
 	search_breakpoints = search_breakpoints,
+	use_toggle_breakpoints = use_toggle_breakpoints,
 }
