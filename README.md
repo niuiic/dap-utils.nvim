@@ -13,7 +13,7 @@ Utilities to provide a better experience for using `nvim-dap`.
 
 ### continue
 
-- Safely inject custom operations before start debugging.
+- Safely inject custom operations before start to debug.
 - Replace the original `continue` with `require("dap-utils").continue()`, and start to debug with this function.
 
 > Async functions or some ui operations may cause error if they are called in `program` function.

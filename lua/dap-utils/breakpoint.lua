@@ -117,17 +117,18 @@ local search_breakpoints = function(opts, root_pattern)
 			sorter = conf.generic_sorter(opts),
 			previewer = previewers.new_buffer_previewer({
 				define_preview = function(self, entry)
+					local offset = math.floor(vim.api.nvim_win_get_height(self.state.winid) / 2)
 					local result = core.lua.list.find(results, function(result)
 						return result.label == entry[1]
 					end)
 
 					local start_line
-					if result.line - 10 >= 0 then
-						start_line = result.line - 10
+					if result.line - offset >= 0 then
+						start_line = result.line - offset
 					else
 						start_line = 0
 					end
-					local end_line = result.line + 10
+					local end_line = result.line + offset
 
 					local lines = vim.api.nvim_buf_get_lines(result.bufnr, start_line, end_line, false)
 					local filetype = vim.api.nvim_get_option_value("filetype", { buf = result.bufnr })
